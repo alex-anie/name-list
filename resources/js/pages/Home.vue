@@ -4,14 +4,17 @@
     import { Link, useForm } from '@inertiajs/vue3';
     import Heading from '@/components/custom/Heading.vue';
     import LinkButton from '@/components/custom/LinkButton.vue';
-    import { Plus, Trash2 } from 'lucide-vue-next';
+    import { Plus, Trash2, Search, Send } from 'lucide-vue-next';
 
     const props = defineProps<{
-        names: Array<{id: number, fullname: string}>;
+        names: {
+            data: Array<{id: number; fullname: string}>
+            links: Array<{url: string | null; label: string; active: boolean}>
+        }
     }>();
 
     const form = useForm({
-        fullname: props.names[0].fullname
+        fullname: props.names.data.fullname
     });
 
     function destroy(id: number, fullname: string){
@@ -33,12 +36,23 @@
             </LinkButton>
         </Heading>
 
+        <article class="w-[50%] mx-auto my-8">
+            <form action="" class="w-full flex items-center border-[1px] border-slate-300 rounded-lg py-2 px-4">
+                <label for="" class="sr-only">Search</label>
+                <Search class="text-slate-400" />
+                <input type="search" placeholder="search names ..." class="w-full px-2 py-2 border-0 outline-0">
+                <button class="text-blue-600 transition-colors duration-500 ease-in hover:text-blue-400 cursor-pointer">
+                    <Send />
+                </button>
+            </form>
+        </article>
+
         <article class="w-[50%] mx-auto">
             <section>
                 <aside>
                     <div 
                         class="flex justify-between border-b-2 pt-2" 
-                        v-for="name in names" :key="name.id"
+                        v-for="name in props.names.data" :key="name.id"
                         >
                        <Link :href="show({id: name.id})" 
                         class="hover:text-blue-600 cursor-pointer text-slate-900 font-tangerine font-bold text-2xl">
@@ -51,6 +65,25 @@
                                 <span>delete</span>
                             </button>
                         </div>
+                    </div>
+
+                    <div class="flex justify-center mt-6 space-x-2">
+                        <Link 
+                            v-for="link in props.names.links"
+                            :key="link.label"
+                            :link="link.label"
+                            :href="link.url ?? ''"
+                            v-html="link.label"
+                            class="px-3 py-1 rounded border"
+                            :class="{
+                                'bg-blue-600 text-white' : link.active,
+                                'text-gray-500 cursor-not-allowed' : !link.url
+                            }"
+                            :disabled="!link.url"
+                            preserveScroll
+                        />
+                            
+                        
                     </div>
 
                 </aside>

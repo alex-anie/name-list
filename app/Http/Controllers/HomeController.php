@@ -9,7 +9,7 @@ use Inertia\Inertia;
 class HomeController extends Controller
 {
     public function index(){
-        $names = Name::orderBy("id", "desc")->get();
+        $names = Name::orderBy("id", "desc")->paginate(7);
         return Inertia::render('Home', ['names' => $names]);
     }
 
