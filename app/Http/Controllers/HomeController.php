@@ -8,9 +8,24 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    public function index(){
-        $names = Name::orderBy("id", "desc")->paginate(7);
-        return Inertia::render('Home', ['names' => $names]);
+    public function index(Request $request){
+        $names = Name::query()
+        ->when($request->search, function($query, $search){
+            $query->where('fullname', 'like', "%{$search}%");
+        })
+
+            ->orderBy("id", "desc")
+            ->paginate(7)
+            ->withQueryString()
+            ->through(fn($name)=>[
+                'id' => $name->id,
+                'fullname' => $name->fullname,
+            ]);
+            
+        return Inertia::render('Home', [
+            'names' => $names,
+            'filters' => $request->only(['search']),
+        ]);
     }
 
     public function create(){

@@ -1,15 +1,17 @@
 <script setup lang="ts">
     import { defineProps } from 'vue';
     import { show } from '@/actions/App/Http/Controllers/HomeController';
-    import { Link, useForm } from '@inertiajs/vue3';
+    import { Link, router, useForm } from '@inertiajs/vue3';
     import Heading from '@/components/custom/Heading.vue';
     import LinkButton from '@/components/custom/LinkButton.vue';
-    import { Plus, Trash2, Search, Send } from 'lucide-vue-next';
+    import { Plus, Trash2, Search } from 'lucide-vue-next';
+    import {ref, watch} from 'vue';
 
     const props = defineProps<{
         names: {
             data: Array<{id: number; fullname: string}>
             links: Array<{url: string | null; label: string; active: boolean}>
+            search?: string
         }
     }>();
 
@@ -22,6 +24,17 @@
             form.delete(`names/${id}`);
         }
     }
+
+    const search = ref(props.names.filters?.search || '');
+
+    watch(search, (value)=>{
+        router.get('/', {search: value}, 
+           { 
+            preserveState: true,
+            replace: true
+        }
+        )
+    })
 
 </script>
 
@@ -40,10 +53,7 @@
             <form action="" class="w-full flex items-center border-[1px] border-slate-300 rounded-lg py-2 px-4">
                 <label for="" class="sr-only">Search</label>
                 <Search class="text-slate-400" />
-                <input type="search" placeholder="search names ..." class="w-full px-2 py-2 border-0 outline-0">
-                <button class="text-blue-600 transition-colors duration-500 ease-in hover:text-blue-400 cursor-pointer">
-                    <Send />
-                </button>
+                <input v-model="search" type="search" placeholder="search names ..." class="w-full px-2 py-2 border-0 outline-0">
             </form>
         </article>
 
