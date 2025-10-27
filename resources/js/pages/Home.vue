@@ -52,7 +52,7 @@
         <div class="h-8 w-full bg-blue-800"></div>
 
         <Heading title="Name List">
-            <LinkButton path="/new-name" classLink="bg-blue-500">
+            <LinkButton v-if="user" path="/new-name" classLink="bg-blue-500">
                 <Plus />
                 <span>New Name</span>
             </LinkButton>

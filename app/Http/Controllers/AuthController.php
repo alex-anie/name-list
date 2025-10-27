@@ -56,6 +56,6 @@ class AuthController extends Controller
         $request->session()->invalidate(); // remove any other data associated with the session completely
         $request->session()->regenerateToken(); // regenerate the csrf token for the next session 
 
-        return redirect('/login');
+        return redirect('/');
     }
 }
