@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,3 +13,11 @@ Route::get('/names/{name}/edit', [HomeController::class, 'edit'])->name('name.ed
 
 Route::put('/names/{name}', [HomeController::class, 'update'])->name('name.update'); // update the name and save
 Route::delete('/names/{name}', [HomeController::class, 'destroy'])->name('name.destroy'); // delete from the db
+
+// Authentication
+Route::get('/register', [AuthController::class, 'showRegister'])->name('show.register');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
+
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

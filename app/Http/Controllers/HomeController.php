@@ -15,7 +15,7 @@ class HomeController extends Controller
         })
 
             ->orderBy("id", "desc")
-            ->paginate(7)
+            ->paginate(5)
             ->withQueryString()
             ->through(fn($name)=>[
                 'id' => $name->id,

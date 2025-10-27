@@ -49,6 +49,13 @@
             </LinkButton>
         </Heading>
 
+        <article class="w-[50%] mx-auto my-4">
+            <section class="flex justify-end gap-x-4">
+                <Link class="text-lg text-slate-900 hover:text-blue-600 hover:underline" href="/login">Login</Link>
+                <Link class="text-lg text-slate-900 hover:text-blue-600 hover:underline" href="/register">Register</Link>
+            </section>
+        </article>
+
         <article class="w-[50%] mx-auto my-8">
             <form action="" class="w-full flex items-center border-[1px] border-slate-300 rounded-lg py-2 px-4">
                 <label for="" class="sr-only">Search</label>
