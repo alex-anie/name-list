@@ -15,9 +15,11 @@ Route::middleware('auth')->controller(HomeController::class)->group(function(){
     Route::delete('/names/{name}',  'destroy')->name('name.destroy'); // delete from the db
 });
 
-// Authentication
-Route::get('/register', [AuthController::class, 'showRegister'])->name('show.register');
-Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::middleware('guest')->controller(AuthController::class)->group(function(){
+    Route::get('/register', 'showRegister')->name('show.register');
+    Route::get('/login',  'showLogin')->name('show.login');
+    Route::post('/register',  'register')->name('register');
+    Route::post('/login',  'login')->name('login');
+});
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
