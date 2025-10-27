@@ -36,6 +36,10 @@
         )
     })
 
+    function logoutForm(){
+        form.post('/logout');
+    }
+
 </script>
 
 <template>
@@ -49,14 +53,14 @@
             </LinkButton>
         </Heading>
 
-        <article class="w-[50%] mx-auto my-4">
+        <article class="w-[50%] mx-auto my-2">
             <section class="flex justify-end gap-x-4">
                 <Link class="text-lg text-slate-900 hover:text-blue-600 hover:underline" href="/login">Login</Link>
                 <Link class="text-lg text-slate-900 hover:text-blue-600 hover:underline" href="/register">Register</Link>
             </section>
         </article>
 
-        <article class="w-[50%] mx-auto my-8">
+        <article class="w-[50%] mx-auto my-2">
             <form action="" class="w-full flex items-center border-[1px] border-slate-300 rounded-lg py-2 px-4">
                 <label for="" class="sr-only">Search</label>
                 <Search class="text-slate-400" />
@@ -104,6 +108,10 @@
                     </div>
 
                 </aside>
+            </section>
+
+            <section class="mt-4">
+                <button @click="logoutForm" class="w-fit bg-red-600 hover:bg-red-700 transition text-white px-2 py-2 rounded-lg">Logout</button>
             </section>
         </article>
     </main>
