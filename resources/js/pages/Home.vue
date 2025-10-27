@@ -7,6 +7,11 @@
     import { Plus, Trash2, Search } from 'lucide-vue-next';
     import {ref, watch} from 'vue';
 
+    import { usePage } from '@inertiajs/vue3';
+
+    const page = usePage();
+    const user = page.props.auth.user;
+
     const props = defineProps<{
         names: {
             data: Array<{id: number; fullname: string}>
@@ -53,7 +58,7 @@
             </LinkButton>
         </Heading>
 
-        <article class="w-[50%] mx-auto my-2">
+        <article class="w-[50%] mx-auto my-2" v-if="!user">
             <section class="flex justify-end gap-x-4">
                 <Link class="text-lg text-slate-900 hover:text-blue-600 hover:underline" href="/login">Login</Link>
                 <Link class="text-lg text-slate-900 hover:text-blue-600 hover:underline" href="/register">Register</Link>
@@ -75,12 +80,12 @@
                         class="flex justify-between border-b-2 pt-2" 
                         v-for="name in props.names.data" :key="name.id"
                         >
-                       <Link :href="show({id: name.id})" 
-                        class="hover:text-blue-600 cursor-pointer text-slate-900 font-tangerine font-bold text-2xl">
-                            {{ name.fullname }}
-                       </Link>
+                        <Link :href="show({id: name.id})" 
+                                class="hover:text-blue-600 cursor-pointer text-slate-900 font-tangerine font-bold text-2xl">
+                                {{ name.fullname }}
+                        </Link>
 
-                        <div>
+                        <div v-if="user">
                             <button @click="destroy(name.id, name.fullname)" class="flex items-center gap-x-[1px] bg-red-600 text-white text-[14px] font-sans  px-1 py-[1px] rounded-[5px] hover:bg-red-800">
                                 <Trash2 class="size-4"/>
                                 <span>delete</span>
@@ -110,7 +115,7 @@
                 </aside>
             </section>
 
-            <section class="mt-4">
+            <section class="mt-4" v-if="user">
                 <button @click="logoutForm" class="w-fit bg-red-600 hover:bg-red-700 transition text-white px-2 py-2 rounded-lg">Logout</button>
             </section>
         </article>
